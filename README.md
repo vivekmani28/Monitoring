@@ -40,6 +40,21 @@ Modify `function measureLatenancy()` to calculate the time between making a requ
 
 [Useful example, using websockets (you can use regular http request)](http://stackoverflow.com/questions/4071258/how-can-i-find-the-response-time-latency-of-a-client-in-nodejs-with-sockets-s)
 
+## Traffic
+
+Siege is a tool for performing load testing of a site.
+
+Download: https://www.joedog.org/siege-home/
+Mac: `brew install siege` or `./configure; make; make install`
+Windows: https://github.com/ewwink/siege-windows
+
+If you run this command, you should see latency start to become red.
+```
+siege -b -t60s http://localhost:8080
+```
+
+## Monkeys
+
 ### Latency Monkey
 
 **Latency Monkey** induces artificial delays client-server communication layer to simulate service degradation and measures if upstream services respond appropriately. In addition, by making very large delays, you can simulate a node or even an entire service downtime (and test our ability to survive it) without physically bringing these instances down. This can be particularly useful when testing the fault-tolerance of a new service by simulating the failure of its dependencies, without making these dependencies unavailable to the rest of the system.
