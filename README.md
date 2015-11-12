@@ -4,6 +4,8 @@ The goal of this workshop is to establish some basic principles related to estab
 
 A new technology that you have not been previously exposed to is [socket.io](http://socket.io/).
 
+![image](https://cloud.githubusercontent.com/assets/742934/11117882/77a18fcc-890b-11e5-831a-87c4363d77e6.png)
+
 ### Setup
 
 Clone this repository, run `npm install`.
