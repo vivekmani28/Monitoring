@@ -21,7 +21,7 @@ There is code running every 2 seconds that will broad cast basic stats to the we
 			io.sockets.emit('heartbeat', 
 			{ 
 		        name: "Your Computer", cpu: cpuAverage(), memoryLoad: memoryLoad(),
-		        nodes: calcuateColor()
+		        nodes: calculateColor()
 		   });
 		
 		}, 2000);
@@ -50,9 +50,9 @@ Download: https://www.joedog.org/siege-home/
 Mac: `brew install siege` or `./configure; make; make install`
 Windows: https://github.com/ewwink/siege-windows
 
-If you run this command, you should see latency start to become red.
+If you run this command, you should see latency start to become red for middle service.
 ```
-siege -b -t60s http://localhost:8080
+siege -b -t60s http://localhost:9001
 ```
 
 ## Monkeys
