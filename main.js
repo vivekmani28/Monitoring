@@ -1,14 +1,24 @@
-var sio = require('socket.io')
-  , http = require('http')
-  , request = require('request')
-  , os = require('os')
-  ;
+var http = require('http');
+var request = require('request');
+var os = require('os');
 
-var app = http.createServer(function (req, res) {
-      res.writeHead(200, { 'Content-Type': 'text/html' });
-      res.end();
-    })
-  , io = sio.listen(app);
+var exec = require('child_process').exec;
+
+// websocket server that website connects to.
+var io = require('socket.io')(3000);
+
+/// CHILDREN nodes
+var nodeServers = 
+[
+	{url:"http://localhost:9000", latency: 0},
+	{url:"http://localhost:9001", latency: 0},
+	{url:"http://localhost:9002", latency: 0}
+];
+
+// Launch servers.
+exec("node fastService.js");
+exec("node mediumService.js");
+exec("node slowService.js");
 
 function memoryLoad()
 {
@@ -59,17 +69,18 @@ function measureLatenancy(server)
 {
 	var options = 
 	{
-		url: 'http://localhost' + ":" + server.address().port,
+		url: server.url
 	};
+	console.log("request to url");
 	request(options, function (error, res, body) 
 	{
-		server.latency = undefined;
+		console.log( error || res.statusCode, server.url);
+		server.latency = 500;
 	});
-
 	return server.latency;
 }
 
-function calcuateColor()
+function calculateColor()
 {
 	// latency scores of all nodes, mapped to colors.
 	var nodes = nodeServers.map( measureLatenancy ).map( function(latency) 
@@ -77,31 +88,31 @@ function calcuateColor()
 		var color = "#cccccc";
 		if( !latency )
 			return {color: color};
-		if( latency > 8000 )
+		if( latency > 1000 )
 		{
 			color = "#ff0000";
 		}
-		else if( latency > 4000 )
+		else if( latency > 20 )
 		{
 			color = "#cc0000";
 		}
-		else if( latency > 2000 )
+		else if( latency > 15 )
 		{
 			color = "#ffff00";
 		}
-		else if( latency > 1000 )
+		else if( latency > 10 )
 		{
 			color = "#cccc00";
 		}
-		else if( latency > 100 )
+		else if( latency > 5 )
 		{
-			color = "#0000cc";
+			color = "#00cc00";
 		}
 		else
 		{
 			color = "#00ff00";
 		}
-		//console.log( latency );
+		console.log( latency );
 		return {color: color};
 	});
 	//console.log( nodes );
@@ -109,59 +120,30 @@ function calcuateColor()
 }
 
 
-/// CHILDREN nodes
-var nodeServers = [];
+io.on('connection', function (socket) {
+	console.log("Received connection");
 
-///////////////
-//// Broadcast heartbeat over websockets
-//////////////
-setInterval( function () 
-{
-	io.sockets.emit('heartbeat', 
-	{ 
-        name: "Your Computer", cpu: cpuAverage(), memoryLoad: memoryLoad(),
-        nodes: calcuateColor()
-   });
-
-}, 2000);
-
-app.listen(3000);
-
-/// NODE SERVERS
-
-createServer(9000, function()
-{
-	// FAST
-});
-createServer(9001, function()
-{
-	// MED
-	for( var i =0 ; i < 300; i++ )
+	///////////////
+	//// Broadcast heartbeat over websockets
+	//////////////
+	var heartbeatTimer = setInterval( function () 
 	{
-		i/2;
-	}
+		var data = { 
+			name: "Your Computer", cpu: cpuAverage(), memoryLoad: memoryLoad()
+			,nodes: calculateColor()
+		};
+		console.log("interval", data)
+		//io.sockets.emit('heartbeat', data );
+		socket.emit("heartbeat", data);
+	}, 5000);
+
+	socket.on('disconnect', function () {
+		console.log("closing connection")
+    	clearInterval(heartbeatTimer);
+  	});
 });
-createServer(9002, function()
-{
-	// SLOW	
-	for( var i =0 ; i < 2000000000; i++ )
-	{
-		Math.sin(i) * Math.cos(i);
-	}	
-});
 
-function createServer(port, fn)
-{
-	// Response to http requests.
-	var server = http.createServer(function (req, res) {
-      res.writeHead(200, { 'Content-Type': 'text/html' });
 
-      fn();
 
-      res.end();
-   }).listen(port);
-	nodeServers.push( server );
 
-	server.latency = undefined;
-}
 
