@@ -1,5 +1,7 @@
 # Monitoring
 
+![build](https://travis-ci.org/CSC-DevOps/Monitoring.svg?branch=master)
+
 The goal of this workshop is to establish some basic principles related to establishing a monitoring infrastructure.  Based on this we can begin exploring some simple resilience testing.
 
 A new technology that you have not been previously exposed to is [socket.io](http://socket.io/).
