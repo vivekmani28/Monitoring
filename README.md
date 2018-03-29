@@ -14,7 +14,7 @@ Clone this repository, run `npm install`.
 
 Run `node main.js` to run the server.
 
-Run `open www/index.html` or `start www/index.html` to open the monitoring application. 
+Run a local webserver in the www directory and open the monitoring application. You may use `npm install http-server -g`, but there are many other options.
 
 There is code running every 2 seconds that will broad cast basic stats to the web app:
 
