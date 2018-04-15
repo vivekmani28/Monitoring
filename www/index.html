@@ -29,12 +29,14 @@
     <thead>
       <tr>
         <th>Server</th>
+        <th> IP Address </th>
         <th>Running Count</th>
       </tr>
     </thead>
     <tbody data-bind='foreach: clients'>
       <tr>
         <td data-bind='text: name'></td>
+        <td data-bind='text: ip'></td>
         <td data-bind='text: count'></td>
       </tr>
     </tbody>
