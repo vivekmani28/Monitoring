@@ -14,6 +14,7 @@ var StatusModel = function (clients) {
             var koObj = self.clients()[i];
             if (self.clients()[i].name() === person.name) {
                 koObj.count(person.count);
+                koObj.ip(person.ip);
                 break;
             }
         }
@@ -27,17 +28,18 @@ var StatusModel = function (clients) {
 var ClientModel = function (client) {
     var self = this;
     self.count = ko.observable(client.count);
+    self.ip = ko.observable(client.ip);
     self.name = ko.observable(client.name);
 }
 
 
 var viewModel = new StatusModel(
     [
-        { name: "iTrust2 Instance #1", count: "0" },
-        { name: "iTrust2 Instance #2", count: "0" },
-        { name: "iTrust2 Instance #3", count: "0" },
-        { name: "iTrust2 Instance #4", count: "0" },
-        { name: "iTrust2 Instance #5", count: "0" }
+        { name: "iTrust2 Instance #1 ",ip: "0.0.0.0" , count: "0" },
+        { name: "iTrust2 Instance #2 ",ip: "0.0.0.0" , count: "0" },
+        { name: "iTrust2 Instance #3 ",ip: "0.0.0.0" , count: "0" },
+        { name: "iTrust2 Instance #4 ",ip: "0.0.0.0" , count: "0" },
+        { name: "iTrust2 Instance #5 ",ip: "0.0.0.0" , count: "0" }
     ]);
 
 $(document).ready(function () {
@@ -53,8 +55,8 @@ $(document).ready(function () {
         viewModel.updateClient(
             {
                 name: client.name,
+                ip: client.ip,
                 count: client.count
             });
     });
 });
-
