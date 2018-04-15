@@ -35,11 +35,11 @@ var ClientModel = function (client) {
 
 var viewModel = new StatusModel(
     [
-        { name: "iTrust2 Instance #1 ",ip: "0.0.0.0" , count: "0" },
-        { name: "iTrust2 Instance #2 ",ip: "0.0.0.0" , count: "0" },
-        { name: "iTrust2 Instance #3 ",ip: "0.0.0.0" , count: "0" },
-        { name: "iTrust2 Instance #4 ",ip: "0.0.0.0" , count: "0" },
-        { name: "iTrust2 Instance #5 ",ip: "0.0.0.0" , count: "0" }
+        { name: "iTrust2 Instance #1 ",ip: "0.0.0.0" , count: "N/A" },
+        { name: "iTrust2 Instance #2 ",ip: "0.0.0.0" , count: "N/A" },
+        { name: "iTrust2 Instance #3 ",ip: "0.0.0.0" , count: "N/A" },
+        { name: "iTrust2 Instance #4 ",ip: "0.0.0.0" , count: "N/A" },
+        { name: "iTrust2 Instance #5 ",ip: "0.0.0.0" , count: "N/A" }
     ]);
 
 $(document).ready(function () {
