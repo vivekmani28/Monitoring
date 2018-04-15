@@ -4,7 +4,12 @@ i=1;
 cat /tmp/hosts_ip | while read line;
 do
 ip=`echo $line |  awk '{print $2}'`
-count=`ssh -n -i ~/Monitoring/ec2.key $ip "ps -ef | grep jetty | grep -v grep | wc -l"`
-echo "iTrust2 Instance #${i} - ${ip}, ${count}"
+count=`nc -v $ip 8080 < /dev/null  >> /dev/null 2>&1; echo $?`
+if [ "$count" -gt 0 ]
+then
+  echo "iTrust2 Instance #${i} - ${ip},NOT RUNNING"
+else
+  echo "iTrust2 Instance #${i} - ${ip},RUNNING"
+fi
 i=$((i+1))
 done
