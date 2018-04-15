@@ -4,7 +4,7 @@ i=1;
 cat /tmp/hosts_ip | while read line;
 do
 ip=`echo $line |  awk '{print $2}'`
-count=`ssh -n -i ~/DevOps_Project/ec2.key $ip "ps -ef | grep jetty | grep -v grep | wc -l"`
+count=`ssh -n -i ~/Monitoring/ec2.key $ip "ps -ef | grep jetty | grep -v grep | wc -l"`
 echo "iTrust2 Instance #${i} - ${ip}, ${count}"
 i=$((i+1))
 done
